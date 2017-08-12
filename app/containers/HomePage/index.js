@@ -10,15 +10,28 @@
  */
 
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
+import Header from 'components/Header';
+import Users from 'components/Users';
+import {
+  Grid,
+  Row,
+  Col
+} from 'react-bootstrap';
 
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+
   render() {
     return (
-      <h1>
-        <FormattedMessage {...messages.header} />
-      </h1>
+      <div>
+        <Header />
+        <Grid bsClass="container">
+          <Row bsClass="row">
+            <Col xs={12}>
+              <Users />
+            </Col>
+          </Row>
+        </Grid>
+      </div>
     );
   }
 }

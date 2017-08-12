@@ -31,6 +31,8 @@ import LanguageProvider from 'containers/LanguageProvider';
 import '!file-loader?name=[name].[ext]!./favicon.ico';
 import '!file-loader?name=[name].[ext]!./manifest.json';
 import 'file-loader?name=[name].[ext]!./.htaccess';
+import '!file-loader?name=[name].[ext]!./assets/img/logo.png';
+import '!file-loader?name=[name].[ext]!./assets/img/user-default.png';
 /* eslint-enable import/no-unresolved, import/extensions */
 
 import configureStore from './store';
