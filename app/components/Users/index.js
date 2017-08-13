@@ -67,43 +67,57 @@ class Users extends React.Component { // eslint-disable-line react/prefer-statel
     }
 
   render() {
+    const { hasErrored, isLoading, users } = this.props;
+
     return (
         <div>
             <Button bsStyle="primary" className="pull-right" onClick={this.openAddModal}> Add User</Button>
+            { hasErrored &&
+                <h3>Sorry! There was an error loading the users</h3>
+            }
             <br />
             <br />
-            <Table className="table">
-                <thead>
-                    <tr>
-                    <th>#</th>
-                    <th>Profile</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td><img src={UserDefault} alt="Riverview User" /></td>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                        <td>
-                            <Button bsStyle="link" onClick={this.openViewModal}>
-                                View
-                            </Button>
-                            <Button bsStyle="link" onClick={this.openEditModal}>
-                                Edit
-                            </Button>
-                            <Button bsStyle="link" onClick={this.openDeleteModal}>
-                                Delete
-                            </Button>
-                        </td>
-                    </tr>
-                </tbody>
-            </Table>
+            { !hasErrored &&
+                <Table className="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Profile</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        { isLoading && !users &&
+                            <tr><td colSpan="6">Loading Users ...</td></tr>
+                        }
+                        { !isLoading && users && users.map((user) => (
+                            <tr key={user.id}>
+                                <td>{user.id}</td>
+                                <td><img src={UserDefault} alt="Riverview User" /></td>
+                                <td>{user.first_name}</td>
+                                <td>{user.last_name}</td>
+                                <td>{user.email}</td>
+                                <td>
+                                    <Button bsStyle="link" onClick={this.openViewModal}>
+                                        View
+                                    </Button>
+                                    <Button bsStyle="link" onClick={this.openEditModal}>
+                                        Edit
+                                    </Button>
+                                    <Button bsStyle="link" onClick={this.openDeleteModal}>
+                                        Delete
+                                    </Button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            }
+            
+            
 
             <div>
                 <AddModal

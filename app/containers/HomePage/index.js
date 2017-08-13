@@ -9,7 +9,7 @@
  * the linting exception.
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import Header from 'components/Header';
 import Users from 'components/Users';
 import {
@@ -17,8 +17,14 @@ import {
   Row,
   Col
 } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { userFetchData } from '../../actions/userActions';
 
-export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+
+  componentWillMount() {
+      this.props.fetchUsers();
+  }
 
   render() {
     return (
@@ -27,7 +33,11 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
         <Grid bsClass="container">
           <Row bsClass="row">
             <Col xs={12}>
-              <Users />
+              <Users
+                hasErrored={this.props.hasErrored}
+                isLoading={this.props.isLoading}
+                users={this.props.users}
+              />
             </Col>
           </Row>
         </Grid>
@@ -35,3 +45,18 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
     );
   }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        users: state.get('users').users,
+        hasErrored: state.get('users').hasErrored,
+        isLoading: state.get('users').isLoading
+    };
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchUsers: () => dispatch(userFetchData())
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
