@@ -41,6 +41,8 @@ The app is built for optimal performance: assets are minified and served gzipped
 
 Firebase is used as the backend. Firebase setting can be found in `app/database/index.js`
 
+> Application is build using react-boilerplate: https://github.com/react-boilerplate/react-boilerplate
+
 ## License
 
 This project is licensed under the MIT license, Copyright (c) 2017 Maximilian Stoiber. For more information see `LICENSE.md`.
