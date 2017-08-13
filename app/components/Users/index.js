@@ -42,11 +42,13 @@ class Users extends React.Component { // eslint-disable-line react/prefer-statel
         });
     }
 
-    openViewModal = () => {
-        this.setState({
-            ...this.state,
-            toggleViewModal: true,
-        });
+    openViewModal = (userId) => {
+        this.props.getUserData(userId).then(() => {
+            this.setState({
+                ...this.state,
+                toggleViewModal: true,
+            });       
+        })  
     }
 
     openDeleteModal = () => {
@@ -67,7 +69,7 @@ class Users extends React.Component { // eslint-disable-line react/prefer-statel
     }
 
   render() {
-    const { hasErrored, isLoading, users } = this.props;
+    const { hasErrored, isLoading, users, selectedUser } = this.props;
 
     return (
         <div>
@@ -101,7 +103,7 @@ class Users extends React.Component { // eslint-disable-line react/prefer-statel
                                 <td>{user.last_name}</td>
                                 <td>{user.email}</td>
                                 <td>
-                                    <Button bsStyle="link" onClick={this.openViewModal}>
+                                    <Button bsStyle="link" onClick={() => this.openViewModal(user.id)}>
                                         View
                                     </Button>
                                     <Button bsStyle="link" onClick={this.openEditModal}>
@@ -132,6 +134,7 @@ class Users extends React.Component { // eslint-disable-line react/prefer-statel
                 <ViewModal
                     toggleModal={this.state.toggleViewModal}
                     closeModal={this.closeModal}
+                    selectedUser={this.props.selectedUser}
                 />
                 <DeleteModal
                     toggleModal={this.state.toggleDeleteModal}

@@ -1,8 +1,6 @@
 import * as types from './actionTypes';
 import database from '../database';
 
-const FIREBASE_API_ENDPOINT = 'https://react-user-management.firebaseio.com/';
-
 export function userHasErrored(bool) {
     return {
         type: types.USER_HAS_ERRORED,
@@ -33,7 +31,28 @@ export function userFetchData() {
         })
         .catch((error) => {
             console.log(error);
-            dispatch(userFetchDataSuccess());
+            dispatch(userHasErrored(true));
+        });
+    };
+}
+
+export function userFetchDataByIdSuccess(userById) {
+    return {
+        type: types.USER_FETCH_DATA_BYID_SUCCESS,
+        userById
+    };
+}
+
+export function getUserData(userId) {
+    return (dispatch) => {
+        dispatch(userIsLoading(true));
+        return database.ref('/').orderByChild('id').equalTo(userId).once('value', snap => {
+            const invite = snap.val();
+            dispatch(userFetchDataByIdSuccess(invite))
+        })
+        .catch((error) => {
+            console.log(error);
+            dispatch(userHasErrored(true));
         });
     };
 }

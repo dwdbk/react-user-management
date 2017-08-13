@@ -10,6 +10,7 @@
  */
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Header from 'components/Header';
 import Users from 'components/Users';
 import {
@@ -17,8 +18,7 @@ import {
   Row,
   Col
 } from 'react-bootstrap';
-import { connect } from 'react-redux';
-import { userFetchData } from '../../actions/userActions';
+import { userFetchData, getUserData } from '../../actions/userActions';
 
 class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
@@ -27,6 +27,8 @@ class HomePage extends React.PureComponent { // eslint-disable-line react/prefer
   }
 
   render() {
+    const { handleSubmit } = this.props;
+
     return (
       <div>
         <Header />
@@ -37,6 +39,8 @@ class HomePage extends React.PureComponent { // eslint-disable-line react/prefer
                 hasErrored={this.props.hasErrored}
                 isLoading={this.props.isLoading}
                 users={this.props.users}
+                getUserData={this.props.fetchUser}
+                selectedUser={this.props.selectedUser}
               />
             </Col>
           </Row>
@@ -50,12 +54,15 @@ const mapStateToProps = (state) => {
     return {
         users: state.get('users').users,
         hasErrored: state.get('users').hasErrored,
-        isLoading: state.get('users').isLoading
+        isLoading: state.get('users').isLoading,
+        selectedUser: state.get('users').userById
     };
 };
+
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchUsers: () => dispatch(userFetchData())
+        fetchUsers: () => dispatch(userFetchData()),
+        fetchUser: (userId) => dispatch(getUserData(userId))
     };
 };
 

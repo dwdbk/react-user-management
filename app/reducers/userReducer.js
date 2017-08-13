@@ -3,7 +3,8 @@ import * as types from '../actions/actionTypes';
 const initialState = {
   hasErrored: false,
   isLoading: false,
-  users: []
+  users: [],
+  userById: []
 };
 
 export function userHasErrored(state = initialState, action = {}) {
@@ -36,6 +37,11 @@ export function users(state = initialState, action = {}) {
             return {
                 ...state,
                 users: action.users
+            };
+        case types.USER_FETCH_DATA_BYID_SUCCESS:
+            return {
+                ...state,
+                userById: action.userById
             };
         default:
             return state;
