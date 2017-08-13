@@ -18,7 +18,8 @@ class Users extends React.Component { // eslint-disable-line react/prefer-statel
             toggleAddModal: false,
             toggleEditModal: false,
             toggleViewModal: false,
-            toggleDeleteModal: false
+            toggleDeleteModal: false,
+            deleteNodeId: null
         };
 
         this.openAddModal = this.openAddModal.bind(this);
@@ -48,14 +49,25 @@ class Users extends React.Component { // eslint-disable-line react/prefer-statel
                 ...this.state,
                 toggleViewModal: true,
             });       
-        })  
+        });
     }
 
-    openDeleteModal = () => {
+    openDeleteModal = (nodeId) => {
         this.setState({
             ...this.state,
             toggleDeleteModal: true,
+            deleteNodeId: nodeId
         });
+    }
+
+    handleDeleteUser = () => {
+        this.props.handleDeleteUser(this.state.deleteNodeId).then(() => {
+            this.setState({
+                ...this.state,
+                toggleDeleteModal: false,
+                deleteNodeId: null
+            });       
+        }) 
     }
 
     closeModal = () => {
@@ -83,7 +95,6 @@ class Users extends React.Component { // eslint-disable-line react/prefer-statel
                 <Table className="table">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Profile</th>
                             <th>First Name</th>
                             <th>Last Name</th>
@@ -95,9 +106,8 @@ class Users extends React.Component { // eslint-disable-line react/prefer-statel
                         { isLoading && !users &&
                             <tr><td colSpan="6">Loading Users ...</td></tr>
                         }
-                        { !isLoading && users && users.length > 0 && users.map((user) => (
+                        { !isLoading && users && users.length > 0 && users.map((user, key) => (
                             <tr key={user.id}>
-                                <td>{user.id}</td>
                                 <td><img src={UserDefault} alt="Riverview User" /></td>
                                 <td>{user.first_name}</td>
                                 <td>{user.last_name}</td>
@@ -109,7 +119,7 @@ class Users extends React.Component { // eslint-disable-line react/prefer-statel
                                     <Button bsStyle="link" onClick={this.openEditModal}>
                                         Edit
                                     </Button>
-                                    <Button bsStyle="link" onClick={this.openDeleteModal}>
+                                    <Button bsStyle="link" onClick={() => this.openDeleteModal(key)}>
                                         Delete
                                     </Button>
                                 </td>
@@ -118,9 +128,6 @@ class Users extends React.Component { // eslint-disable-line react/prefer-statel
                     </tbody>
                 </Table>
             }
-            
-            
-
             <div>
                 <AddModal
                     toggleModal={this.state.toggleAddModal}
@@ -138,6 +145,7 @@ class Users extends React.Component { // eslint-disable-line react/prefer-statel
                 />
                 <DeleteModal
                     toggleModal={this.state.toggleDeleteModal}
+                    deleteUser={this.handleDeleteUser}
                     closeModal={this.closeModal}
                 />
             </div>

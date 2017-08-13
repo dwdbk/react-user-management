@@ -16,7 +16,7 @@ class AddModal extends React.Component { // eslint-disable-line react/prefer-sta
                     <Modal.Title>Add User</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <h5>Are you sure you want to delete this user?</h5>
+                    <h5>Under Development ...</h5>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={this.props.closeModal}>Close</Button>

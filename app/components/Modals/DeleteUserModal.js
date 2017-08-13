@@ -20,7 +20,7 @@ class DeleteModal extends React.Component { // eslint-disable-line react/prefer-
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={this.props.closeModal}>Close</Button>
-                    <Button bsStyle="danger" onClick={this.closeModal}>Delete User</Button>
+                    <Button bsStyle="danger" onClick={this.props.deleteUser}>Delete User</Button>
                 </Modal.Footer>
             </Modal>
         </div>

@@ -18,7 +18,7 @@ import {
   Row,
   Col
 } from 'react-bootstrap';
-import { userFetchData, getUserData } from '../../actions/userActions';
+import { userFetchData, getUserData, deleteUserData } from '../../actions/userActions';
 
 class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
@@ -41,6 +41,7 @@ class HomePage extends React.PureComponent { // eslint-disable-line react/prefer
                 users={this.props.users}
                 getUserData={this.props.fetchUser}
                 selectedUser={this.props.selectedUser}
+                handleDeleteUser={this.props.deleteUser}
               />
             </Col>
           </Row>
@@ -62,7 +63,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchUsers: () => dispatch(userFetchData()),
-        fetchUser: (userId) => dispatch(getUserData(userId))
+        fetchUser: (userId) => dispatch(getUserData(userId)),
+        deleteUser: (deleteNodeId) => dispatch(deleteUserData(deleteNodeId))
     };
 };
 

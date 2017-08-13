@@ -43,6 +43,10 @@ export function users(state = initialState, action = {}) {
                 ...state,
                 userById: action.userById
             };
+        case types.USER_DELETE_BYID_SUCCESS:
+            return {
+                ...state,
+            };
         default:
             return state;
     }

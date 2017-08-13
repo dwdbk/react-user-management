@@ -56,3 +56,26 @@ export function getUserData(userId) {
         });
     };
 }
+
+export function userDeleteyIdSuccess() {
+    return {
+        type: types.USER_DELETE_BYID_SUCCESS,
+    };
+}
+
+export function deleteUserData(nodeId) {
+    return (dispatch) => {
+        dispatch(userIsLoading(true));
+        return database.ref('/').child(nodeId).remove(function(error) {
+            if (error) {
+                console.log(error);
+                dispatch(userHasErrored(true));
+            }
+            dispatch(userFetchData())
+        })
+        .catch((error) => {
+            console.log(error);
+            dispatch(userHasErrored(true));
+        });
+    };
+}
