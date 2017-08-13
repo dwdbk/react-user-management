@@ -93,7 +93,7 @@ class Users extends React.Component { // eslint-disable-line react/prefer-statel
                         { isLoading && !users &&
                             <tr><td colSpan="6">Loading Users ...</td></tr>
                         }
-                        { !isLoading && users && users.map((user) => (
+                        { !isLoading && users && users.length > 0 && users.map((user) => (
                             <tr key={user.id}>
                                 <td>{user.id}</td>
                                 <td><img src={UserDefault} alt="Riverview User" /></td>

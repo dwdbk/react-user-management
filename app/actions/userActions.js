@@ -1,4 +1,5 @@
 import * as types from './actionTypes';
+import database from '../database';
 
 const FIREBASE_API_ENDPOINT = 'https://react-user-management.firebaseio.com/';
 
@@ -26,16 +27,13 @@ export function userFetchDataSuccess(users) {
 export function userFetchData() {
     return (dispatch) => {
         dispatch(userIsLoading(true));
-        fetch(FIREBASE_API_ENDPOINT+'.json')
-            .then((response) => {
-                if (!response.ok) {
-                    throw Error(response.statusText);
-                }
-                dispatch(userIsLoading(false));
-                return response;
-            })
-            .then((response) => response.json())
-            .then((users) => dispatch(userFetchDataSuccess(users)))
-            .catch(() => dispatch(userHasErrored(true)));
+        return database.ref('/').once('value', snap => {
+            const invite = snap.val();
+            dispatch(userFetchDataSuccess(invite))
+        })
+        .catch((error) => {
+            console.log(error);
+            dispatch(userFetchDataSuccess());
+        });
     };
 }
